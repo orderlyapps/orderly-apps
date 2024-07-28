@@ -1,4 +1,4 @@
-# Turborepo starter
+# Orderly Apps
 
 This is an official starter Turborepo.
 
