@@ -2,7 +2,9 @@ import { IonRouterOutlet, IonSpinner } from "@ionic/react";
 import { Route, Redirect } from "react-router";
 import HomePage from "../components/pages/home/HomePage";
 import { PATHS } from "../util/paths";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react"; 
+const CreateCongregationPage = lazy(() => import("../components/pages/settings/CreateCongregationPage")); 
+const TestingPage = lazy(() => import("../components/pages/home/TestingPage"));
 const OutlinesListPage = lazy(
   () => import("../components/pages/home/OutlinesListPage")
 );
@@ -47,6 +49,18 @@ export function Routes({}) {
       <Route exact path={PATHS.publishers_list}>
         <Suspense fallback={<IonSpinner />}>
           <PublishersListPage />
+        </Suspense>
+      </Route>
+
+      <Route exact path={ PATHS.testing }>
+        <Suspense fallback={<IonSpinner />}>
+          <TestingPage />
+        </Suspense>
+      </Route>
+
+      <Route exact path={ PATHS.create_congregation }>
+        <Suspense fallback={<IonSpinner />}>
+          <CreateCongregationPage />
         </Suspense>
       </Route>
     </IonRouterOutlet>

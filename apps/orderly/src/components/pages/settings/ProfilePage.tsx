@@ -12,9 +12,10 @@ import {
   useIonToast,
 } from "@ionic/react";
 import { Suspense, useEffect, useState } from "react";
-import { NameDetails } from "../../feature/people/NameDetails";
 import { useData } from "../../../data/zustand/useData";
 import { useSettings } from "../../../data/zustand/useSettings";
+import { PersonDetails } from "../../feature/people/PersonDetails";
+import { usePersonQuery } from "../../../data/react-query/people/usePeople";
 
 export default function ProfilePage() {
   const [readonly, setReadonly] = useState(true);
@@ -23,7 +24,7 @@ export default function ProfilePage() {
   const [showLoading, hideLoading] = useIonLoading();
 
   const session = useSettings.use.session();
-  const online = useSettings.use.online ();
+  const online = useSettings.use.online();
 
   const initTableData = useData.use.initTableData();
   const upsertTableData = useData.use.upsertTableData();
@@ -33,11 +34,10 @@ export default function ProfilePage() {
     await showLoading();
     try {
       const { error } = await upsertTableData("people");
-      if (error) throw error;
       await hideLoading();
+      if (error) throw error;
       setReadonly(true);
     } catch (error) {
-      await hideLoading();
       toast({
         message: "Sorry, something went wrong. Please try again.",
         duration: 2000,
@@ -70,25 +70,24 @@ export default function ProfilePage() {
             {!readonly && <IonButton onClick={handleCancel}>Cancel</IonButton>}
           </IonButtons>
           <IonTitle>Profile</IonTitle>
-          {online && (
-            <IonButtons slot="end">
-              {readonly && (
-                <IonButton onClick={() => setReadonly(false)}>
-                  <strong>Edit</strong>
-                </IonButton>
-              )}
-              {!readonly && (
-                <IonButton onClick={handleUpdate}>
-                  <strong>Done</strong>
-                </IonButton>
-              )}
-            </IonButtons>
-          )}
+
+          <IonButtons slot="end">
+            {readonly && (
+              <IonButton onClick={() => setReadonly(false)} disabled={!online}>
+                <strong>Edit</strong>
+              </IonButton>
+            )}
+            {!readonly && (
+              <IonButton onClick={handleUpdate} disabled={!online}>
+                <strong>Done</strong>
+              </IonButton>
+            )}
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <Suspense fallback={<IonSpinner />}>
-          <NameDetails readonly={readonly}></NameDetails>
+          <PersonDetails readonly={readonly}></PersonDetails>
         </Suspense>
       </IonContent>
     </IonPage>

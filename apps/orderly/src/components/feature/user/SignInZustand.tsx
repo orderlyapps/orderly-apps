@@ -8,27 +8,34 @@ import {
   IonList,
   useIonLoading,
 } from "@ionic/react";
+import { supabase } from "../../../data/supabase/supabase-client";
 import { useSettings } from "../../../data/zustand/useSettings";
 import { ProfilePageLink } from "../../page-links/settings/ProfilePageLinks";
-import {
-  useGoogleSignInSessionMutation,
-  useSessionQuery,
-  useSignOutSessionMutation,
-} from "../../../data/react-query/user/useSession";
 
 export function SignIn() {
-  const { data: session } = useSessionQuery();
-  const { mutate: signOut } = useSignOutSessionMutation();
-  const { mutate: signIn } = useGoogleSignInSessionMutation();
-  console.log("result:", session);
+  const [showLoading, hideLoading] = useIonLoading();
+  const setSettingsProperies = useSettings.use.setSettingsProperties();
+  const session = useSettings.use.session();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    signIn();
+    await showLoading();
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: import.meta.env.VITE_AUTH_REDIRECT,
+        },
+      });
+    } catch (e: any) {
+    } finally {
+      await hideLoading();
+    }
   };
 
   const handleSignOut = async () => {
-    signOut();
+    await supabase.auth.signOut();
+    setSettingsProperies("session", null);
   };
 
   return (

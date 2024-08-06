@@ -14,7 +14,7 @@
     // FOLDERS
     "**/.turbo": true,
     "**/node_modules": true,
-    "**/.wrangler": true,
+    "**/.wrangler": true
     // "**/packages": true
   },
   "commands.workspaceCommands": {
@@ -24,7 +24,14 @@
           "type": "pickString",
           "id": "name",
           "description": "What do you want to do?",
-          "options": ["deploy", "turbo", "workbox", "supabase", "terminal"]
+          "options": [
+            "deploy",
+            "turbo",
+            "workbox",
+            "supabase",
+            "terminal",
+            "refactor"
+          ]
         }
       ],
       "command": "commands.run",
@@ -422,7 +429,7 @@
 
     "supabase": {
       "nestedItems": {
-        "migrate & push": {
+        "diff to migrate file": {
           "sequence": [
             {
               "args": {
@@ -432,6 +439,21 @@
                 "reuse": "newest",
                 "reveal": true,
                 "text": "clear && supabase db diff --local -f backup && supabase db push"
+              },
+              "command": "commands.runInTerminal"
+            }
+          ]
+        },
+        "migrate & push": {
+          "sequence": [
+            {
+              "args": {
+                "icon": "circle-large-filled",
+                "iconColor": "charts.green",
+                "name": "supabase",
+                "reuse": "newest",
+                "reveal": true,
+                "text": "clear && supabase db diff --local -f backup"
               },
               "command": "commands.runInTerminal"
             }

@@ -28,11 +28,14 @@ import "@ionic/react/css/display.css";
 
 import "../variables.css";
 import { useInit } from "./useInit";
+import { useSessionQuery } from "../data/react-query/user/useSession";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   useInit();
+  const session = useSessionQuery()
+  console.log("session:", session)
 
   return (
     <IonApp>

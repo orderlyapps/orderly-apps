@@ -3,7 +3,7 @@ import { useData } from "../../../data/zustand/useData";
 import { useEffect } from "react";
 
 export function PeopleList() {
-  const people = useData.use.people();
+  const people = useData.use.people() ;
   const initTableData = useData.use.initTableData();
 
   useEffect(() => {

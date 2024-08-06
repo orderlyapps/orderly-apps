@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  IonCheckbox,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonSearchbar,
+  IonCheckbox, IonItem, IonList,
+  IonSearchbar
 } from "@ionic/react";
 import { OUTLINES } from "../helpers/outlines";
 

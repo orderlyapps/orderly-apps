@@ -34,9 +34,62 @@ export type Database = {
   }
   public: {
     Tables: {
+      admins: {
+        Row: {
+          congregation_id: string
+          person_id: string
+        }
+        Insert: {
+          congregation_id?: string
+          person_id?: string
+        }
+        Update: {
+          congregation_id?: string
+          person_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_admins_congregation_id_fkey"
+            columns: ["congregation_id"]
+            isOneToOne: false
+            referencedRelation: "congregations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_admins_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      congregations: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       people: {
         Row: {
           avatar_url: string | null
+          congregation_id: string | null
+          created_at: string
           display_name: string | null
           first_name: string | null
           full_name: string | null
@@ -50,6 +103,8 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          congregation_id?: string | null
+          created_at?: string
           display_name?: string | null
           first_name?: string | null
           full_name?: string | null
@@ -63,6 +118,8 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          congregation_id?: string | null
+          created_at?: string
           display_name?: string | null
           first_name?: string | null
           full_name?: string | null
@@ -76,7 +133,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "people_id_fkey"
+            foreignKeyName: "public_people_congregation_id_fkey"
+            columns: ["congregation_id"]
+            isOneToOne: false
+            referencedRelation: "congregations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_people_id_fkey"
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
@@ -89,7 +153,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: {
+          congregation_id: string
+          person_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
@@ -374,6 +444,10 @@ export type Database = {
           metadata: Json
           updated_at: string
         }[]
+      }
+      operation: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       search: {
         Args: {
