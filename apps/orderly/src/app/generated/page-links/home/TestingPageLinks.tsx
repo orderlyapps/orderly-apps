@@ -4,36 +4,36 @@ import { ComponentProps } from "react";
 
 function Button( props: ComponentProps<typeof IonButton>) {
   return (
-    <IonButton routerLink={ PATHS.{{snakeCase name}} } {...props}>
-      {props.children || "{{titleCase name}}"}
+    <IonButton routerLink={ PATHS.testing } {...props}>
+      {props.children || "Testing"}
     </IonButton>
   );
 }
 
 function Item( props: ComponentProps<typeof IonItem>) {
   return (
-    <IonItem routerLink={ PATHS.{{snakeCase name}} } {...props}>
-      {props.children || "{{titleCase name}}"}
+    <IonItem routerLink={ PATHS.testing } {...props}>
+      {props.children || "Testing"}
     </IonItem>
   );
 }
 
 function Card( props: ComponentProps<typeof IonCard>) {
   return (
-    <IonCard routerLink={ PATHS.{{snakeCase name}} } {...props}>
-      {props.children || "{{titleCase name}}"}
+    <IonCard routerLink={ PATHS.testing } {...props}>
+      {props.children || "Testing"}
     </IonCard>
   );
 }
 
 function FabButton( props: ComponentProps<typeof IonFabButton>) {
   return (
-    <IonFabButton routerLink={ PATHS.{{snakeCase name}} } {...props}>
-      {props.children || "{{titleCase name}}"}
+    <IonFabButton routerLink={ PATHS.testing } {...props}>
+      {props.children || "Testing"}
     </IonFabButton>
   );
 }
 
-export const {{pascalCase name}}PageLink = { Button, Item, Card, FabButton };
+export const TestingPageLink = { Button, Item, Card, FabButton };
 
 // generated

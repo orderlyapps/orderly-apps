@@ -25,21 +25,21 @@ export const ionicPage = (plop: PlopTypes.NodePlopAPI) => {
     actions: [
       {
         type: "add",
-        path: "apps/{{kebabCase app}}/src/components/pages/{{kebabCase tab}}/{{pascalCase name}}Page.tsx",
+        path: "apps/{{kebabCase app}}/src/app/generated/pages/{{kebabCase tab}}/{{pascalCase name}}Page.tsx",
         templateFile: "ionic-page/ionic-page.hbs",
       },
       {
         type: "add",
-        path: "apps/{{kebabCase app}}/src/components/page-links/{{kebabCase tab}}/{{pascalCase name}}PageLinks.tsx",
+        path: "apps/{{kebabCase app}}/src/app/generated/page-links/{{kebabCase tab}}/{{pascalCase name}}PageLinks.tsx",
         templateFile: "ionic-page/ionic-page-links.hbs",
       },
       {
         type: "modify",
-        path: "apps/{{kebabCase app}}/src/app/Routes.tsx",
+        path: "apps/{{kebabCase app}}/src/app/generated/util/Routes.tsx",
         pattern: /^(.*"react";)(.*\<\/Route>)/s,
         template:
           "$1 " +
-          '\nconst {{pascalCase name}}Page = lazy(() => import("../components/pages/{{kebabCase tab}}/{{pascalCase name}}Page"));' +
+          '\nconst {{pascalCase name}}Page = lazy(() => import("../pages/{{kebabCase tab}}/{{pascalCase name}}Page"));' +
           "$2" +
           "\n\n      <Route exact path={ PATHS.{{snakeCase name}} }>\n" +
           "        <Suspense fallback={<IonSpinner />}>\n" +
@@ -49,7 +49,7 @@ export const ionicPage = (plop: PlopTypes.NodePlopAPI) => {
       },
       {
         type: "modify",
-        path: "apps/{{kebabCase app}}/src/util/paths.ts",
+        path: "apps/{{kebabCase app}}/src/app/generated/util/paths.ts",
         pattern: /^(.*\{)(.*)$/s,
         template:
           "$1" +

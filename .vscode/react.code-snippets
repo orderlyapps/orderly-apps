@@ -144,10 +144,10 @@
     "description": "",
   },
 
-  "-Add useData": {
-    "prefix": "react",
+  "-Add useStore": {
+    "prefix": "react_useStore",
     "body": [
-      "const ${1|people,congregations,newPerson,newCongregation,initTableData,setRowDataByID,upsertTableData|} = useData$0.use.$1()",
+      "const $1 = useStore.use.$0()",
     ],
     "description": "",
   },

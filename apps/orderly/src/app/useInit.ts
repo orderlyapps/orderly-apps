@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import { useSettings } from "../data/zustand/useSettings";
 import { supabase } from "../data/supabase/supabase-client";
+import { useStore } from "../data/zustand/useStore";
 
 export function useInit() {
-  const setSettingsProperties = useSettings.use.setSettingsProperties();
-  const theme = useSettings.use.theme();
+  const setStoreProperties = useStore.use.setStoreProperties();
+  const theme = useStore.use.theme();
 
   const toggleDarkPalette = (shouldAdd: boolean) => {
     document.documentElement.classList.toggle("ion-palette-dark", shouldAdd);
   };
 
   const initializeDarkPalette = (isDark: boolean) => {
-    setSettingsProperties("theme", isDark ? "dark" : "light");
+    setStoreProperties("theme", isDark ? "dark" : "light");
     toggleDarkPalette(isDark);
   };
 
@@ -21,14 +21,14 @@ export function useInit() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        setSettingsProperties("session", session);
+        setStoreProperties("session", session);
       }
     });
 
     // set online status
-    setSettingsProperties("online", window.navigator.onLine);
+    setStoreProperties("online", window.navigator.onLine);
     const updateOnlineStatus = (event: Event) => {
-      setSettingsProperties("online", window.navigator.onLine);
+      setStoreProperties("online", window.navigator.onLine);
     };
     window.addEventListener("online", updateOnlineStatus);
     window.addEventListener("offline", updateOnlineStatus);
@@ -44,7 +44,7 @@ export function useInit() {
     if (theme === "dark") {
       document.documentElement.classList.toggle("ion-palette-dark", true);
     }
-    
+
     return () => {
       subscription.unsubscribe();
       window.removeEventListener("online", updateOnlineStatus);
