@@ -15,16 +15,20 @@ import { Suspense, useEffect, useState } from "react";
 import { useStore } from "../../../data/zustand/useStore";
 import { PersonDetails } from "../../../features/people/components/PersonDetails";
 import { useSessionQuery } from "../../auth/queries/useSession";
-import { usePersonQuery, useUpsertPersonMutation } from "../queries/usePeople";
+import { usePublisherQuery, useUpsertPersonMutation } from "../queries/usePeople";
 
 export default function ProfilePage() {
   const [readonly, setReadonly] = useState(true);
   const session = useSessionQuery();
   const online = useStore.use.online();
-  const { data: person } = usePersonQuery(session.data?.user.id);
-  const { mutate: updateProfile, error, data } = useUpsertPersonMutation();
-  const updatedPersonDetails = useStore.use.personDetails();
-  const setPersonDetails = useStore.use.setStoreProperties();
+  const { data: person } = usePublisherQuery(session.data?.user.id);
+  const {
+    mutate: upsertPersonMutation,
+    error,
+    data,
+  } = useUpsertPersonMutation();
+  const personDetails = useStore.use.personDetails();
+  const setStoreProperties = useStore.use.setStoreProperties();
 
   const [toast] = useIonToast();
   const [showLoading, hideLoading] = useIonLoading();
@@ -32,7 +36,7 @@ export default function ProfilePage() {
   const handleUpdate = async () => {
     await showLoading();
     try {
-      updateProfile(updatedPersonDetails);
+      upsertPersonMutation(personDetails);
       await hideLoading();
       if (error) throw error;
       setReadonly(true);
@@ -47,14 +51,14 @@ export default function ProfilePage() {
 
   const handleCancel = async () => {
     if (person) {
-      setPersonDetails("personDetails", person);
+      setStoreProperties("personDetails", person);
     }
     setReadonly(true);
   };
 
   useEffect(() => {
     if (person) {
-      setPersonDetails("personDetails", person);
+      setStoreProperties("personDetails", person);
     }
   }, []);
 

@@ -13,16 +13,17 @@ import { Suspense } from "react";
 import { CongregationsList } from "../../../../features/congregation/components/CongregationsList";
 import { useStore } from "../../../../data/zustand/useStore";
 import { LoadingSpinner } from "../../../../ui/LoadingSpinner";
+import { usePublishersQuery } from "../../../../features/people/queries/usePeople";
 
 export default function TestingPage() {
+  const publishers = usePublishersQuery()
   const person = useStore.use.personDetails();
-  const cong = useStore.use.newCongregation();
+  const cong = useStore.use.congregationDetails();
   const setStoreProperty = useStore.use.setStoreProperties();
 
   
   const handleTest = () => {
-    console.log("person:", person);
-    setStoreProperty("personDetails",{id:"sfd"})
+    console.log("test:", publishers);
   };
 
   return (

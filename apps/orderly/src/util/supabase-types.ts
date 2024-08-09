@@ -62,6 +62,13 @@ export type Database = {
             referencedRelation: "people"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "public_admins_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "publishers"
+            referencedColumns: ["id"]
+          },
         ]
       }
       congregations: {
@@ -108,7 +115,7 @@ export type Database = {
           display_name?: string | null
           first_name?: string | null
           full_name?: string | null
-          id: string
+          id?: string
           last_name?: string | null
           middle_name?: string | null
           outlines?: string[] | null
@@ -139,18 +146,37 @@ export type Database = {
             referencedRelation: "congregations"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "public_people_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      publishers: {
+        Row: {
+          avatar_url: string | null
+          congregation_id: string | null
+          created_at: string | null
+          display_name: string | null
+          first_name: string | null
+          full_name: string | null
+          id: string | null
+          is_admin: boolean | null
+          last_name: string | null
+          middle_name: string | null
+          outlines: string[] | null
+          updated_at: string | null
+          username: string | null
+          website: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_people_congregation_id_fkey"
+            columns: ["congregation_id"]
+            isOneToOne: false
+            referencedRelation: "congregations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       is_admin: {

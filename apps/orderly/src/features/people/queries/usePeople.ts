@@ -11,6 +11,7 @@ const peopleKeys = {
 };
 
 type Person = Database["public"]["Tables"]["people"]["Insert"];
+type Publisher = Database["public"]["Views"]["publishers"]["Row"];
 
 // QUERIES
 
@@ -21,10 +22,17 @@ async function getPeople() {
   }
   throw error;
 }
+async function getPublishers() {
+  const { data, error } = await supabase.from("publishers").select();
+  if (data) {
+    return data;
+  }
+  throw error;
+}
 
-async function getPerson(id: string) {
+async function getPublisher(id: string) {
   const { data, error } = await supabase
-    .from("people")
+    .from("publishers")
     .select()
     .eq("id", id)
     .single();
@@ -54,10 +62,16 @@ export const usePeopleQuery = () =>
     queryFn: getPeople,
   });
 
-export const usePersonQuery = (id?: string | null) =>
+export const usePublishersQuery = () =>
+  useQuery({
+    queryKey: peopleKeys.all,
+    queryFn: getPublishers,
+  });
+
+export const usePublisherQuery = (id?: string | null) =>
   useQuery({
     queryKey: peopleKeys.detail(id),
-    queryFn: () => (id ? getPerson(id) : Promise.resolve(null)),
+    queryFn: () => (id ? getPublisher(id) : Promise.resolve(null)),
     enabled: !!id,
   });
 

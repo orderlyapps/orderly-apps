@@ -2,33 +2,52 @@ import { IonButton, IonCard, IonFabButton, IonItem } from "@ionic/react";
 import { PATHS } from "../../util/paths";
 import { ComponentProps } from "react";
 
-function Button( props: ComponentProps<typeof IonButton>) {
+type Param = string | undefined | null;
+
+const path = (param?: Param) => {
+  if (param) return `${PATHS.congregation_details}/${param}`;
+  return PATHS.congregation_details;
+};
+
+function Button({
+  param,
+  ...props
+}: ComponentProps<typeof IonButton> & { param: Param }) {
   return (
-    <IonButton routerLink={ PATHS.congregation_details } {...props}>
+    <IonButton routerLink={path(param)} {...props}>
       {props.children || "Congregation Details"}
     </IonButton>
   );
 }
 
-function Item( props: ComponentProps<typeof IonItem>) {
+function Item({
+  param,
+  ...props
+}: ComponentProps<typeof IonItem> & { param?: Param }) {
   return (
-    <IonItem button detail routerLink={ PATHS.congregation_details } {...props}>
+    <IonItem button detail routerLink={param as string} {...props}>
       {props.children || "Congregation Details"}
     </IonItem>
   );
 }
 
-function Card( props: ComponentProps<typeof IonCard>) {
+function Card({
+  param,
+  ...props
+}: ComponentProps<typeof IonCard> & { param?: string }) {
   return (
-    <IonCard routerLink={ PATHS.congregation_details } {...props}>
+    <IonCard routerLink={path(param)} {...props}>
       {props.children || "Congregation Details"}
     </IonCard>
   );
 }
 
-function FabButton( props: ComponentProps<typeof IonFabButton>) {
+function FabButton({
+  param,
+  ...props
+}: ComponentProps<typeof IonFabButton> & { param?: string }) {
   return (
-    <IonFabButton routerLink={ PATHS.congregation_details } {...props}>
+    <IonFabButton routerLink={path(param)} {...props}>
       {props.children || "Congregation Details"}
     </IonFabButton>
   );

@@ -7,7 +7,7 @@ import { Session } from "@supabase/supabase-js";
 const initialState = {
   personDetails: {} as Database["public"]["Tables"]["people"]["Insert"],
   user: {} as Database["public"]["Tables"]["people"]["Insert"],
-  newCongregation:
+  congregationDetails:
     {} as Database["public"]["Tables"]["congregations"]["Update"],
   session: null as Session | null,
   online: true as boolean,

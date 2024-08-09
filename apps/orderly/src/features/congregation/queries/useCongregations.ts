@@ -36,10 +36,11 @@ async function getCongregation(id: string) {
 
 async function upsertCongregation(newData: Congregation) {
   const { data, error } = await supabase
-    .from("congregations")
-    .upsert(newData)
-    .select()
-    .single();
+  .from("congregations")
+  .upsert(newData)
+  .select()
+  .single();
+  console.log("error:", error)
   if (data) {
     return data;
   }
@@ -61,7 +62,7 @@ export const useCongregationQuery = (id?: string | null) =>
     enabled: !!id,
   });
 
-export const useUpsertPersonMutation = () => {
+export const useUpsertCongregationMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
