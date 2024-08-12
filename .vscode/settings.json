@@ -192,69 +192,43 @@
           ]
         },
         "gen": {
-          "command": "commands.runInTerminal",
-          "args": {
-            "text": "${input:name}",
-            "reveal": true,
-            "reuse": "newest",
-            "icon": "circle-filled",
-            "iconColor": "charts.orange",
-            "name": "turbo gen"
-          },
-          "inputs": [
-            {
-              "type": "pickString",
-              "id": "name",
-              "description": "Which command??",
-              "options": ["turbo gen workspace --copy"]
-            }
-          ]
-        },
-        "turbo run dev": {
-          "sequence": [
-            {
-              "command": "commands.focusTerminal",
-              "args": "turbo dev"
-            },
-            {
-              "command": "workbench.action.terminal.kill"
-            },
-            {
+          "nestedItems": {
+            "gen workspace": {
+              "command": "commands.runInTerminal",
               "args": {
-                "icon": "circle-large-filled",
-                "iconColor": "charts.green",
-                "name": "turbo dev",
-                "reuse": "newest",
+                "text": "${input:name}",
                 "reveal": true,
-                "text": "lsof -t -i tcp:3000 | xargs kill -9 && lsof -t -i tcp:3001 | xargs kill -9 && turbo run dev"
-              },
-              "command": "commands.runInTerminal"
-            },
-            {
-              "args": {
-                "color": "#3cff00",
-                "message": "turbo dev started",
-                "timeout": 5000
-              },
-              "command": "commands.showStatusBarNotification"
-            }
-          ]
-        },
-        "turbo gen": {
-          "sequence": [
-            {
-              "args": {
-                "icon": "circle-large-filled",
-                "iconColor": "charts.green",
-                "name": "generate",
                 "reuse": "newest",
-                "reveal": true,
-                "text": "clear && turbo gen"
+                "icon": "circle-filled",
+                "iconColor": "charts.orange",
+                "name": "turbo gen"
               },
-              "command": "commands.runInTerminal"
+              "inputs": [
+                {
+                  "type": "pickString",
+                  "id": "name",
+                  "description": "Which command??",
+                  "options": ["turbo gen workspace --copy"]
+                }
+              ]
+            },
+            "gen files": {
+              "sequence": [
+                {
+                  "args": {
+                    "icon": "circle-large-filled",
+                    "iconColor": "charts.green",
+                    "name": "generate",
+                    "reuse": "newest",
+                    "reveal": true,
+                    "text": "clear && turbo gen"
+                  },
+                  "command": "commands.runInTerminal"
+                }
+              ]
             }
-          ]
-        }
+          }
+        },
       }
     },
 

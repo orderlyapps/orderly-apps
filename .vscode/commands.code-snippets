@@ -52,4 +52,15 @@
     ],
     "description": "",
   },
+  "-Wrap Command in Folder": {
+    "prefix": "commands",
+    "body": [
+      "\"${1:New_Folder}\": {",
+      "\"nestedItems\": {",
+      "${TM_SELECTED_TEXT}",
+      "}",
+      "},",
+    ],
+    "description": "",
+  },
 }
